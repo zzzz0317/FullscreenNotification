@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">全屏通知</string>
+    <string name="notification_service_name">ZZ通知监听服务</string>
 
 </resources>

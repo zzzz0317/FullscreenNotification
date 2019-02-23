@@ -2,12 +2,15 @@ package net.asec01.fsn;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -26,23 +29,35 @@ public class NotificationListener extends NotificationListenerService {
 //        Log.i("NotificationListener", "Notification posted " + notificationTitle + " & " + notificationText);
 //        Log.i("NotificationListener", "titlekeyword " + titlekeyword + " & " + notificationTitle);
 //        Log.i("NotificationListener", "msgkeyword " + msgkeyword + " & " + notificationText);
+        Boolean cont1,cont2,cont3,cont3_0,cont3_1,cont3_2,cont;
+        cont = false;
+        cont1 = !TextUtils.isEmpty(notificationTitle) && !TextUtils.isEmpty(notificationText);
+        if (cont1) {
+            cont2 = notificationTitle.contains(titlekeyword) || notificationText.contains(msgkeyword);
+            cont3_1 = notificationText.contains("语音通话中");
+            cont3_2 = notificationText.contains("视频通话中");
+            cont3_0 = notificationPkg.equals("com.tencent.mm");
+            cont3 = !(cont3_0 && (cont3_1 || cont3_2));
+            cont = cont2 && cont3;
+        }
 
-        if (!TextUtils.isEmpty(notificationTitle) && !TextUtils.isEmpty(notificationText)) {
-            if (notificationTitle.contains(titlekeyword) || notificationText.contains(msgkeyword)) {
-                Log.i("NotificationListener", "Notification posted " + notificationTitle + " & " + notificationText);
-                if (SPUtil.getBoolean(this, "fullscreen")) {
-                    Log.i("NotificationListener", "全屏消息");
-                    AppNotification appNotification = ((AppNotification) getApplicationContext());
-                    appNotification.sbn = sbn;
-                    newNotification(notificationTitle, notificationText, notificationPkg);
-                } else {
-                    Log.i("NotificationListener", "直接打开消息");
-                    PendingIntent pendingIntent = notification.contentIntent;
-                    try {
-                        pendingIntent.send();
-                    } catch (PendingIntent.CanceledException e) {
-                        e.printStackTrace();
-                    }
+        if (cont) {
+            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            vibrator.vibrate(3000);
+            Log.i("NotificationListener", "Notification posted " + notificationTitle + " & " + notificationText);
+            if (SPUtil.getBoolean(this, "fullscreen")) {
+                Log.i("NotificationListener", "全屏消息");
+                AppNotification appNotification = ((AppNotification) getApplicationContext());
+                appNotification.sbn = sbn;
+                newNotification(notificationTitle, notificationText, notificationPkg);
+            } else {
+                Log.i("NotificationListener", "直接打开消息");
+                PendingIntent pendingIntent = notification.contentIntent;
+                try {
+                    pendingIntent.send();
+                    Toast.makeText(this, "收到含关键词的消息，已为您自动打开", Toast.LENGTH_SHORT).show();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
                 }
             }
         }

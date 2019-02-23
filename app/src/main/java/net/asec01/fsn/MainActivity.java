@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         loadVar();
         if (!isNotificationListenerEnabled(this)) {
-            openSettings("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+            Toast.makeText(this, "无读取通知权限\n请点击\"检查通知权限\"以打开服务", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -39,9 +39,15 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveClick(View v) {
         EditText et_titlekeyword = findViewById(R.id.et_titlekeyword);
         EditText et_msgkeyword = findViewById(R.id.et_msgkeyword);
-        SPUtil.setString(this, "titlekeyword", et_titlekeyword.getText().toString());
-        SPUtil.setString(this, "msgkeyword", et_msgkeyword.getText().toString());
-        Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
+        String titlekeyword = et_titlekeyword.getText().toString();
+        String msgkeyword = et_msgkeyword.getText().toString();
+        if (titlekeyword.equals("") || titlekeyword.equals("")) {
+            Toast.makeText(this, "保存失败: 禁止空关键词", Toast.LENGTH_SHORT).show();
+        }else{
+            SPUtil.setString(this, "titlekeyword", titlekeyword);
+            SPUtil.setString(this, "msgkeyword", msgkeyword);
+            Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onSwitchFSClick(View v){
@@ -53,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onCheckNPClick(View v) {
         if (!isNotificationListenerEnabled(this)) {
-            Toast.makeText(this, "无读取通知权限，请授权", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "无读取通知权限\n请授权\"ZZ通知监听服务\"", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "权限检查通过", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "权限检查通过\n如需关闭服务，请取消授权\"ZZ通知监听服务\"", Toast.LENGTH_SHORT).show();
         }
         openSettings("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
     }
@@ -77,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onPreviewClick(View v) {
-        newNotification("测试标题", "测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容", "net.asec01.fsn");
+//        newNotification("测试标题", "测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容", "net.asec01.fsn");
+        Toast.makeText(this, "预览功能暂时停用", Toast.LENGTH_SHORT).show();
     }
 
     public void newNotification(String title, String msg, String packageName) {

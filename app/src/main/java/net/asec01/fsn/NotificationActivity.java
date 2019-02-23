@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,12 +19,16 @@ public class NotificationActivity extends AppCompatActivity {
 
     String AppName = "";
     PendingIntent pendingIntent;
-
+    String packageName = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-        loadContent();
+        try{
+            loadContent();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void loadContent() {
@@ -78,8 +83,9 @@ public class NotificationActivity extends AppCompatActivity {
 //        } else {
 //            img_head.setImageBitmap(getAppIcon(bundle.getString("packageName")));
 //        }
-
-        AppName = getAppName(bundle.getString("packageName"));
+        packageName = bundle.getString("packageName");
+        Log.i("NotificationActivity", "bundle pkg name: " + packageName);
+        AppName = getAppName(packageName);
 
         tv_title.setText(bundle.getString("title").replace(SPUtil.getString(this, "titlekeyword"), ""));
         tv_msg.setText(bundle.getString("msg"));
@@ -91,10 +97,22 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     public void onOpenClick(View v) {
-        try {
-            pendingIntent.send();
-        } catch (PendingIntent.CanceledException e) {
-            e.printStackTrace();
+        AppNotification appNotification = ((AppNotification) getApplicationContext());
+        if (appNotification.sbn == null) {
+            PackageManager packageManager = getPackageManager();
+            Intent intent = packageManager.getLaunchIntentForPackage(packageName);
+            Log.i("NotificationActivity", "open pkg name: " + packageName);
+            if(intent==null){
+                System.out.println("APP not found!");
+            }
+            startActivity(intent);
+        } else {
+            try {
+                pendingIntent.send();
+                appNotification.sbn = null;
+            } catch (PendingIntent.CanceledException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -109,20 +127,4 @@ public class NotificationActivity extends AppCompatActivity {
         }
         return "未知应用";
     }
-//
-//    public static Bitmap drawableToBitmap(Drawable drawable) {
-//        int w = drawable.getIntrinsicWidth();
-//        int h = drawable.getIntrinsicHeight();
-//        System.out.println("Drawable转Bitmap");
-//        Bitmap.Config config =
-//                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
-//                        : Bitmap.Config.RGB_565;
-//        Bitmap bitmap = Bitmap.createBitmap(w, h, config);
-//        //注意，下面三行代码要用到，否则在View或者SurfaceView里的canvas.drawBitmap会看不到图
-//        Canvas canvas = new Canvas(bitmap);
-//        drawable.setBounds(0, 0, w, h);
-//        drawable.draw(canvas);
-//
-//        return bitmap;
-//    }
 }
