@@ -30,8 +30,10 @@ public class MainActivity extends AppCompatActivity {
     private void loadVar() {
         EditText et_titlekeyword = findViewById(R.id.et_titlekeyword);
         EditText et_msgkeyword = findViewById(R.id.et_msgkeyword);
+        EditText et_vib = findViewById(R.id.et_vib);
         et_titlekeyword.setText(SPUtil.getString(this, "titlekeyword"));
         et_msgkeyword.setText(SPUtil.getString(this, "msgkeyword"));
+        et_vib.setText(SPUtil.getInt(this, "vib_time").toString());
         Button btn_switch_fs = findViewById(R.id.btn_switch_fs);
         btn_switch_fs.setText(SPUtil.getBoolean(this,"fullscreen").toString());
     }
@@ -39,13 +41,21 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveClick(View v) {
         EditText et_titlekeyword = findViewById(R.id.et_titlekeyword);
         EditText et_msgkeyword = findViewById(R.id.et_msgkeyword);
+        EditText et_vib = findViewById(R.id.et_vib);
         String titlekeyword = et_titlekeyword.getText().toString();
         String msgkeyword = et_msgkeyword.getText().toString();
+        Integer vib_time = 200;
+        try{
+            vib_time = Integer.valueOf(et_vib.getText().toString());
+        }catch (Exception e){
+            Toast.makeText(this, "震动时间已重置", Toast.LENGTH_SHORT).show();
+        }
         if (titlekeyword.equals("") || titlekeyword.equals("")) {
             Toast.makeText(this, "保存失败: 禁止空关键词", Toast.LENGTH_SHORT).show();
         }else{
             SPUtil.setString(this, "titlekeyword", titlekeyword);
             SPUtil.setString(this, "msgkeyword", msgkeyword);
+            SPUtil.setInt(this, "vib_time", vib_time);
             Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
         }
     }

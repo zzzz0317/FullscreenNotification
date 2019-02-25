@@ -7,6 +7,8 @@ public class SPUtil {
     SharedPreferences.Editor editor;
     private static String PREF_NAME = "settings";
     private static String DEFAULT_STRING = "[fsn]";
+    private static Boolean DEFAULT_BOOLEAN = false;
+    private static Integer DEFAULT_INTEGER = 0;
 
     public SPUtil() {
         // Blank
@@ -26,12 +28,21 @@ public class SPUtil {
         editor.commit();
     }
     public static Boolean getBoolean(Context context,String key) {
-        return getPrefs(context).getBoolean(key, false);
+        return getPrefs(context).getBoolean(key, DEFAULT_BOOLEAN);
     }
 
     public static void setBoolean(Context context,String key, Boolean input) {
         SharedPreferences.Editor editor = getPrefs(context).edit();
         editor.putBoolean(key, input);
+        editor.commit();
+    }
+    public static Integer getInt(Context context,String key) {
+        return getPrefs(context).getInt(key,DEFAULT_INTEGER);
+    }
+
+    public static void setInt(Context context, String key, Integer input) {
+        SharedPreferences.Editor editor = getPrefs(context).edit();
+        editor.putInt(key, input);
         editor.commit();
     }
 

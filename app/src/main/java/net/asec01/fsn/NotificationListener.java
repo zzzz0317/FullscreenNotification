@@ -43,7 +43,7 @@ public class NotificationListener extends NotificationListenerService {
 
         if (cont) {
             Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            vibrator.vibrate(3000);
+            vibrator.vibrate(SPUtil.getInt(this, "vib_time"));
             Log.i("NotificationListener", "Notification posted " + notificationTitle + " & " + notificationText);
             if (SPUtil.getBoolean(this, "fullscreen")) {
                 Log.i("NotificationListener", "全屏消息");
