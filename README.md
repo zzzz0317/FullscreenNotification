@@ -12,7 +12,7 @@
 * 替代微信强提醒功能，不用反复打开开关，适用于所有应用
 
 ## 已知问题
-* 新版都解决啦，暂时还没有
+* 似乎不支持 [Nevolution](https://www.coolapk.com/apk/com.oasisfeng.nevo)
 
 ## 预告
 * 等我手术拆了线再说吧。。。
