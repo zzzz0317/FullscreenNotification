@@ -29,23 +29,27 @@ public class NotificationListener extends NotificationListenerService {
 //        Log.i("NotificationListener", "Notification posted " + notificationTitle + " & " + notificationText);
 //        Log.i("NotificationListener", "titlekeyword " + titlekeyword + " & " + notificationTitle);
 //        Log.i("NotificationListener", "msgkeyword " + msgkeyword + " & " + notificationText);
-        Boolean cont1,cont2,cont3,cont3_0,cont3_1,cont3_2,cont;
+        Boolean sw_title = SPUtil.getBoolean(this,"sw_title");
+        Boolean sw_msg = SPUtil.getBoolean(this,"sw_msg");
+        Boolean cont0,cont1,cont2,cont3,cont3_0,cont3_1,cont3_2,cont;
         cont = false;
         cont1 = !TextUtils.isEmpty(notificationTitle) && !TextUtils.isEmpty(notificationText);
         if (cont1) {
-            cont2 = notificationTitle.contains(titlekeyword) || notificationText.contains(msgkeyword);
+            cont0 = notificationPkg.equals(getPackageName());
+            cont2 = (notificationTitle.contains(titlekeyword) && sw_title) || (notificationText.contains(msgkeyword) && sw_msg);
             cont3_1 = notificationText.contains("语音通话中");
             cont3_2 = notificationText.contains("视频通话中");
             cont3_0 = notificationPkg.equals("com.tencent.mm");
             cont3 = !(cont3_0 && (cont3_1 || cont3_2));
-            cont = cont2 && cont3;
+            cont = (cont2 && cont3) || cont0;
         }
-
         if (cont) {
-            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            vibrator.vibrate(SPUtil.getInt(this, "vib_time"));
+            if (SPUtil.getBoolean(this,"sw_vib")){
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                vibrator.vibrate(SPUtil.getInt(this, "vib_time"));
+            }
             Log.i("NotificationListener", "Notification posted " + notificationTitle + " & " + notificationText);
-            if (SPUtil.getBoolean(this, "fullscreen")) {
+            if (SPUtil.getBoolean(this, "sw_fullscreen")) {
                 Log.i("NotificationListener", "全屏消息");
                 AppNotification appNotification = ((AppNotification) getApplicationContext());
                 appNotification.sbn = sbn;

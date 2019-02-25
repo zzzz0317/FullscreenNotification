@@ -87,9 +87,10 @@ public class NotificationActivity extends AppCompatActivity {
         Log.i("NotificationActivity", "bundle pkg name: " + packageName);
         AppName = getAppName(packageName);
 
-        tv_title.setText(bundle.getString("title").replace(SPUtil.getString(this, "titlekeyword"), ""));
-        tv_msg.setText(bundle.getString("msg"));
+//        tv_title.setText(bundle.getString("title").replace(SPUtil.getString(this, "titlekeyword"), ""));
 //        tv_msg.setText(bundle.getString("msg").replace(SPUtil.getString(this, "msgkeyword"), ""));
+        tv_title.setText(bundle.getString("title"));
+        tv_msg.setText(bundle.getString("msg"));
         tv_appname.setText("来自 \"" + AppName + "\"");
         btn_openmsg.setText("打开 \"" + AppName + "\" 处理消息");
 

@@ -6,8 +6,8 @@ android {
         applicationId "net.asec01.fsn"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 2
-        versionName "0.2.QAQ"
+        versionCode 3
+        versionName "0.3.QAQ"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
