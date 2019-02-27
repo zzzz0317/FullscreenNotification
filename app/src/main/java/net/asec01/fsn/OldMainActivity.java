@@ -29,7 +29,7 @@ public class OldMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_oldmain);
+        setContentView(R.layout.activity_old_main);
         loadVar();
         loadStats();
     }

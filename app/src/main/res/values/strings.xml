@@ -1,5 +1,12 @@
 <resources>
-    <string name="app_name">全屏通知</string>
+    <string name="app_name">全屏消息</string>
     <string name="notification_service_name">ZZ通知监听服务</string>
+    <string name="title_activity_main">全屏消息</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">全屏消息</string>
+    <string name="nav_header_subtitle">暴力提醒应用消息</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
