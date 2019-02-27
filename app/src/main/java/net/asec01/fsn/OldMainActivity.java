@@ -24,12 +24,12 @@ import android.widget.Toast;
 
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class OldMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_oldmain);
         loadVar();
         loadStats();
     }
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                         "买了一加的米粉\n" +
                         "社交能力基本没有\n" +
                         "嗯 就这样");
-        Intent resultIntent = new Intent(this,MainActivity.class);
+        Intent resultIntent = new Intent(this,OldMainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
         Notification notification = builder.build();
