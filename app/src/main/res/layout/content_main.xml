@@ -166,7 +166,7 @@ android:layout_height="match_parent"
                         <TextView
                             android:id="@+id/textView17"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="28dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
                             android:text="快捷开关"
@@ -251,6 +251,16 @@ android:layout_height="match_parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                         </android.support.constraint.ConstraintLayout>
+
+                        <Switch
+                            android:id="@+id/sw_main"
+                            android:layout_width="0dp"
+                            android:layout_height="28dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="主开关 "
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
                     </android.support.constraint.ConstraintLayout>
                 </android.support.v7.widget.CardView>
 

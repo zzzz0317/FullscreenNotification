@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity
 
     Button btn_notificationListenerSettings;
     Button btn_ignoringBatteryOptimizationsSettings;
+    Switch sw_main;
     Switch sw_keyword_title;
     Switch sw_keyword_text;
     Switch sw_keyword_vib;
@@ -166,6 +167,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         switch (compoundButton.getId()){
+            case R.id.sw_main:
+                SPUtil.setBoolean(this,"sw_main",compoundButton.isChecked());
+                break;
             case R.id.sw_keyword_title:
                 SPUtil.setBoolean(this,"sw_title",compoundButton.isChecked());
                 break;
@@ -189,6 +193,7 @@ public class MainActivity extends AppCompatActivity
     private void initView() {
         btn_notificationListenerSettings = findViewById(R.id.btn_notificationListenerSettings);
         btn_ignoringBatteryOptimizationsSettings = findViewById(R.id.btn_ignoringBatteryOptimizationsSettings);
+        sw_main = findViewById(R.id.sw_main);
         sw_keyword_title = findViewById(R.id.sw_keyword_title);
         sw_keyword_text = findViewById(R.id.sw_keyword_text);
         sw_keyword_vib = findViewById(R.id.sw_keyword_vib);
@@ -214,6 +219,7 @@ public class MainActivity extends AppCompatActivity
         btn_ignoringBatteryOptimizationsSettings.setOnClickListener(this);
         btn_save.setOnClickListener(this);
         btn_test.setOnClickListener(this);
+        sw_main.setOnCheckedChangeListener(this);
         sw_keyword_title.setOnCheckedChangeListener(this);
         sw_keyword_text.setOnCheckedChangeListener(this);
         sw_keyword_vib.setOnCheckedChangeListener(this);
@@ -222,6 +228,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadVar() {
+        sw_main.setChecked(SPUtil.getBoolean(this,"sw_main"));
         sw_keyword_title.setChecked(SPUtil.getBoolean(this,"sw_title"));
         sw_keyword_text.setChecked(SPUtil.getBoolean(this,"sw_msg"));
         sw_keyword_vib.setChecked(SPUtil.getBoolean(this,"sw_vib"));
