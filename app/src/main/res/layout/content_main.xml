@@ -15,8 +15,10 @@ android:layout_height="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,7 +27,7 @@ android:layout_height="match_parent"
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="850dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/scrollView2">
 
@@ -33,9 +35,9 @@ android:layout_height="match_parent"
                     android:id="@+id/cardView"
                     android:layout_width="0dp"
                     android:layout_height="90dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -45,10 +47,10 @@ android:layout_height="match_parent"
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/imageView4"
-                            android:layout_width="72px"
-                            android:layout_height="72px"
-                            android:layout_marginStart="24dp"
+                            android:id="@+id/iv_notificationListener"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="16dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -62,21 +64,21 @@ android:layout_height="match_parent"
                             android:layout_marginTop="16dp"
                             android:text="通知监听服务"
                             android:textSize="18sp"
-                            app:layout_constraintStart_toEndOf="@+id/imageView4"
+                            app:layout_constraintStart_toEndOf="@+id/iv_notificationListener"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView26"
+                            android:id="@+id/tv_notificationListener"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="24dp"
                             android:layout_marginBottom="16dp"
                             android:text="未启用"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/imageView4" />
+                            app:layout_constraintStart_toEndOf="@+id/iv_notificationListener" />
 
                         <Button
-                            android:id="@+id/button"
+                            android:id="@+id/btn_notificationListenerSettings"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="24dp"
@@ -91,9 +93,9 @@ android:layout_height="match_parent"
                     android:id="@+id/cardView2"
                     android:layout_width="0dp"
                     android:layout_height="90dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardView">
@@ -103,10 +105,10 @@ android:layout_height="match_parent"
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/imageView5"
-                            android:layout_width="72px"
-                            android:layout_height="72px"
-                            android:layout_marginStart="24dp"
+                            android:id="@+id/iv_ignoringBatteryOptimizations"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="16dp"
                             android:layout_marginBottom="1dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -121,21 +123,21 @@ android:layout_height="match_parent"
                             android:layout_marginTop="16dp"
                             android:text="请求忽略电池优化"
                             android:textSize="18sp"
-                            app:layout_constraintStart_toEndOf="@+id/imageView5"
+                            app:layout_constraintStart_toEndOf="@+id/iv_ignoringBatteryOptimizations"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/textView27"
+                            android:id="@+id/tv_ignoringBatteryOptimizations"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="24dp"
                             android:layout_marginBottom="16dp"
                             android:text="未启用"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/imageView5" />
+                            app:layout_constraintStart_toEndOf="@+id/iv_ignoringBatteryOptimizations" />
 
                         <Button
-                            android:id="@+id/button2"
+                            android:id="@+id/btn_ignoringBatteryOptimizationsSettings"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="24dp"
@@ -149,10 +151,10 @@ android:layout_height="match_parent"
                 <android.support.v7.widget.CardView
                     android:id="@+id/cardView3"
                     android:layout_width="0dp"
-                    android:layout_height="140dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_height="175dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardView2">
@@ -186,7 +188,27 @@ android:layout_height="match_parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView17">
 
                             <Switch
-                                android:id="@+id/switch4"
+                                android:id="@+id/sw_keyword_vib"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="长振动"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/sw_keyword_text" />
+
+                            <Switch
+                                android:id="@+id/sw_keyword_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="消息关键词匹配"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/sw_keyword_title" />
+
+                            <Switch
+                                android:id="@+id/sw_keyword_title"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:text="标题关键词匹配"
@@ -194,15 +216,6 @@ android:layout_height="match_parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <Switch
-                                android:id="@+id/switch6"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="长震动"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/switch4" />
                         </android.support.constraint.ConstraintLayout>
 
                         <android.support.constraint.ConstraintLayout
@@ -219,34 +232,35 @@ android:layout_height="match_parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView17">
 
                             <Switch
-                                android:id="@+id/switch5"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:text="消息关键词匹配"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <Switch
-                                android:id="@+id/switch8"
+                                android:id="@+id/sw_fullscreen"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:text="全屏显示"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/switch5" />
+                                app:layout_constraintTop_toBottomOf="@+id/sw_keyword_vib_s" />
+
+                            <Switch
+                                android:id="@+id/sw_keyword_vib_s"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="振动关键词匹配"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
                         </android.support.constraint.ConstraintLayout>
                     </android.support.constraint.ConstraintLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/cardView4"
                     android:layout_width="0dp"
-                    android:layout_height="130dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_height="410dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardView3">
@@ -255,24 +269,132 @@ android:layout_height="match_parent"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
+                        <Button
+                            android:id="@+id/btn_test"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="触发测试通知"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/et_vib_time" />
+
+                        <TextView
+                            android:id="@+id/textView12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="设置"
+                            android:textSize="20sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="标题关键词"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+                        <EditText
+                            android:id="@+id/et_keyword_title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:ems="10"
+                            android:inputType="text"
+                            android:text="[fsn]"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+                        <EditText
+                            android:id="@+id/et_keyword_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:ems="10"
+                            android:inputType="text"
+                            android:text="[fsn]"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+                        <EditText
+                            android:id="@+id/et_keyword_vib"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:ems="10"
+                            android:inputType="text"
+                            android:text="[fsn]"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:text="消息关键词"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/et_keyword_title" />
+
+                        <TextView
+                            android:id="@+id/textView14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:text="振动关键词"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/et_keyword_text" />
+
+                        <Button
+                            android:id="@+id/btn_save"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="应用设置"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/et_vib_time" />
+
                         <TextView
                             android:id="@+id/textView18"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:text="杂项"
-                            android:textSize="20sp"
+                            android:layout_marginTop="8dp"
+                            android:text="振动时间(ms)"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toBottomOf="@+id/et_keyword_vib" />
 
-                        <Button
-                            android:id="@+id/button3"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/et_vib_time"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:text="触发测试通知"
+                            android:layout_marginEnd="16dp"
+                            android:ems="10"
+                            android:inputType="number"
+                            android:text="1000"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView18" />
                     </android.support.constraint.ConstraintLayout>

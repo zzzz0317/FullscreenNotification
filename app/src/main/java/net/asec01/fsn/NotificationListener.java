@@ -18,6 +18,11 @@ public class NotificationListener extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
         String titlekeyword = SPUtil.getString(this, "titlekeyword");
         String msgkeyword = SPUtil.getString(this, "msgkeyword");
+        String vibkeyword = SPUtil.getString(this, "vibkeyword");
+        Boolean sw_title = SPUtil.getBoolean(this,"sw_title");
+        Boolean sw_msg = SPUtil.getBoolean(this,"sw_msg");
+        Boolean sw_vib = SPUtil.getBoolean(this,"sw_vib");
+        Boolean sw_vib_s = SPUtil.getBoolean(this,"sw_vib_s");
         Notification notification = sbn.getNotification();
         Bundle extras = sbn.getNotification().extras;
         // 获取接收消息APP的包名
@@ -29,9 +34,7 @@ public class NotificationListener extends NotificationListenerService {
 //        Log.i("NotificationListener", "Notification posted " + notificationTitle + " & " + notificationText);
 //        Log.i("NotificationListener", "titlekeyword " + titlekeyword + " & " + notificationTitle);
 //        Log.i("NotificationListener", "msgkeyword " + msgkeyword + " & " + notificationText);
-        Boolean sw_title = SPUtil.getBoolean(this,"sw_title");
-        Boolean sw_msg = SPUtil.getBoolean(this,"sw_msg");
-        Boolean cont0,cont1,cont2,cont3,cont3_0,cont3_1,cont3_2,cont;
+        Boolean cont0,cont1,cont2,cont3,cont3_0,cont3_1,cont3_2,cont4 = false,cont;
         cont = false;
         cont1 = !TextUtils.isEmpty(notificationTitle) && !TextUtils.isEmpty(notificationText);
         if (cont1) {
@@ -41,10 +44,13 @@ public class NotificationListener extends NotificationListenerService {
             cont3_2 = notificationText.contains("视频通话中");
             cont3_0 = notificationPkg.equals("com.tencent.mm");
             cont3 = !(cont3_0 && (cont3_1 || cont3_2));
-            cont = (cont2 && cont3) || cont0;
+            cont4 = (notificationTitle.contains(vibkeyword) && sw_vib_s) || (notificationText.contains(vibkeyword) && sw_vib_s);
+            cont = (cont2 && cont3) || (cont4 && cont3) || cont0;
+        }else{
+            return;
         }
         if (cont) {
-            if (SPUtil.getBoolean(this,"sw_vib")){
+            if (sw_vib || (sw_vib_s && cont4)){
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 vibrator.vibrate(SPUtil.getInt(this, "vib_time"));
             }

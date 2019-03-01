@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +27,17 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
         try{
             loadContent();
         }catch(Exception e){
@@ -43,6 +57,7 @@ public class NotificationActivity extends AppCompatActivity {
         TextView tv_appname = findViewById(R.id.tv_appname);
         Button btn_openmsg = findViewById(R.id.btn_openmsg);
         ImageView img_head = findViewById(R.id.img_head);
+        ImageView img_bighead = findViewById(R.id.img_bighead);
 
 //        // 获取接收消息APP的包名
 //        String notificationPkg = appNotification.sbn.getPackageName();
@@ -63,16 +78,19 @@ public class NotificationActivity extends AppCompatActivity {
         try {
             Drawable drawable = getPackageManager().getApplicationIcon(bundle.getString("packageName"));
             img_head.setImageDrawable(drawable);
+            img_bighead.setImageDrawable(drawable);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
         Bitmap bmp = (Bitmap) extras.get(Notification.EXTRA_PICTURE);
         if (bmp != null){
             img_head.setImageBitmap(bmp);
+            img_bighead.setImageBitmap(bmp);
         }
         bmp = (Bitmap) extras.get(Notification.EXTRA_LARGE_ICON);
         if (bmp != null){
             img_head.setImageBitmap(bmp);
+            img_bighead.setImageBitmap(bmp);
         }
 //        if (extras.containsKey(Notification.EXTRA_LARGE_ICON)) {
 //             this bitmap contain the picture attachment

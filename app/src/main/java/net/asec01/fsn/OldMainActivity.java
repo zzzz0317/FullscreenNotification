@@ -24,7 +24,9 @@ import android.widget.Toast;
 
 import java.util.Set;
 
-public class OldMainActivity extends AppCompatActivity {
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
+public class OldMainActivity extends SwipeBackActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +43,13 @@ public class OldMainActivity extends AppCompatActivity {
     }
 
     private void loadVar() {
-        EditText et_titlekeyword = findViewById(R.id.et_titlekeyword);
-        EditText et_msgkeyword = findViewById(R.id.et_msgkeyword);
-        EditText et_vib = findViewById(R.id.et_vib);
-        Button btn_switch_title = findViewById(R.id.btn_switch_title);
-        Button btn_switch_msg = findViewById(R.id.btn_switch_msg);
-        Button btn_switch_vib = findViewById(R.id.btn_switch_vib);
-        Button btn_switch_fs = findViewById(R.id.btn_switch_fs);
+        EditText et_titlekeyword = (EditText) findViewById(R.id.et_titlekeyword);
+        EditText et_msgkeyword = (EditText) findViewById(R.id.et_msgkeyword);
+        EditText et_vib = (EditText) findViewById(R.id.et_vib);
+        Button btn_switch_title = (Button) findViewById(R.id.btn_switch_title);
+        Button btn_switch_msg = (Button) findViewById(R.id.btn_switch_msg);
+        Button btn_switch_vib = (Button) findViewById(R.id.btn_switch_vib);
+        Button btn_switch_fs = (Button) findViewById(R.id.btn_switch_fs);
         et_titlekeyword.setText(SPUtil.getString(this, "titlekeyword"));
         et_msgkeyword.setText(SPUtil.getString(this, "msgkeyword"));
         et_vib.setText(SPUtil.getInt(this, "vib_time").toString());
@@ -57,8 +59,8 @@ public class OldMainActivity extends AppCompatActivity {
         btn_switch_fs.setText(SPUtil.getBoolean(this,"sw_fullscreen").toString());
     }
     private void loadStats(){
-        ImageView img_check_listener = findViewById(R.id.img_check_listener);
-        ImageView img_check_bat = findViewById(R.id.img_check_bat);
+        ImageView img_check_listener = (ImageView) findViewById(R.id.img_check_listener);
+        ImageView img_check_bat = (ImageView) findViewById(R.id.img_check_bat);
         if (isNotificationListenerEnabled(this)) {
             img_check_listener.setImageDrawable(getDrawable(R.drawable.ok));
         }else{
@@ -72,9 +74,9 @@ public class OldMainActivity extends AppCompatActivity {
         }
     }
     public void onSaveClick(View v) {
-        EditText et_titlekeyword = findViewById(R.id.et_titlekeyword);
-        EditText et_msgkeyword = findViewById(R.id.et_msgkeyword);
-        EditText et_vib = findViewById(R.id.et_vib);
+        EditText et_titlekeyword = (EditText) findViewById(R.id.et_titlekeyword);
+        EditText et_msgkeyword = (EditText) findViewById(R.id.et_msgkeyword);
+        EditText et_vib = (EditText) findViewById(R.id.et_vib);
         String titlekeyword = et_titlekeyword.getText().toString();
         String msgkeyword = et_msgkeyword.getText().toString();
         Integer vib_time = 200;
@@ -94,28 +96,28 @@ public class OldMainActivity extends AppCompatActivity {
     }
 
     public void onSwitchTitleClick(View v){
-        Button btn_switch_title = findViewById(R.id.btn_switch_title);
+        Button btn_switch_title = (Button) findViewById(R.id.btn_switch_title);
         Boolean newValue = !SPUtil.getBoolean(this,"sw_title");
         btn_switch_title.setText(newValue.toString());
         SPUtil.setBoolean(this,"sw_title",newValue);
         Toast.makeText(this, "标题匹配："+newValue.toString(), Toast.LENGTH_SHORT).show();
     }
     public void onSwitchMsgClick(View v){
-        Button btn_switch_msg = findViewById(R.id.btn_switch_msg);
+        Button btn_switch_msg = (Button) findViewById(R.id.btn_switch_msg);
         Boolean newValue = !SPUtil.getBoolean(this,"sw_msg");
         btn_switch_msg.setText(newValue.toString());
         SPUtil.setBoolean(this,"sw_msg",newValue);
         Toast.makeText(this, "消息匹配："+newValue.toString(), Toast.LENGTH_SHORT).show();
     }
     public void onSwitchVibClick(View v){
-        Button btn_switch_vib = findViewById(R.id.btn_switch_vib);
+        Button btn_switch_vib = (Button) findViewById(R.id.btn_switch_vib);
         Boolean newValue = !SPUtil.getBoolean(this,"sw_vib");
         btn_switch_vib.setText(newValue.toString());
         SPUtil.setBoolean(this,"sw_vib",newValue);
         Toast.makeText(this, "震动："+newValue.toString(), Toast.LENGTH_SHORT).show();
     }
     public void onSwitchFSClick(View v){
-        Button btn_switch_fs = findViewById(R.id.btn_switch_fs);
+        Button btn_switch_fs = (Button) findViewById(R.id.btn_switch_fs);
         Boolean newValue = !SPUtil.getBoolean(this,"sw_fullscreen");
         btn_switch_fs.setText(newValue.toString());
         SPUtil.setBoolean(this,"sw_fullscreen",newValue);

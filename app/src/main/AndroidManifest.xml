@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="net.asec01.fsn">
-
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -24,20 +23,31 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".OldMainActivity"></activity>
+        <activity
+            android:name=".OldMainActivity"
+            android:excludeFromRecents="true"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".NotificationActivity"
+            android:excludeFromRecents="true"
             android:label="@string/app_name"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".MainActivity"
+            android:excludeFromRecents="true"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_about"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
