@@ -133,6 +133,7 @@ public class NotificationActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        finish();
     }
 
     private String getAppName(String packageName) {

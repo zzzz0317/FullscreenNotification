@@ -4,10 +4,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "net.asec01.fsn"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 28
-        versionCode 4
-        versionName "0.4.QAQ"
+        versionCode 5
+        versionName "0.4.QwQ"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
