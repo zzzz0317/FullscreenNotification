@@ -17,7 +17,7 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         if(!SPUtil.getBoolean(this,"sw_main")){
-            //return;
+            return;
         }
         String titlekeyword = SPUtil.getString(this, "titlekeyword");
         String msgkeyword = SPUtil.getString(this, "msgkeyword");
