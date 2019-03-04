@@ -304,7 +304,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
-                    android:text="老铁们，考虑打赏一下开发者如何？"
+                    android:text="老铁，如果这个软件帮到了你，考虑打赏一下开发者如何？"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

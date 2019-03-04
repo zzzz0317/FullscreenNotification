@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,12 +48,32 @@ public class MainActivity extends AppCompatActivity
     Switch sw_keyword_vib;
     Switch sw_keyword_vib_s;
     Switch sw_fullscreen;
+    Switch sw_ring;
     EditText et_keyword_title;
     EditText et_keyword_text;
     EditText et_keyword_vib;
     EditText et_vib_time;
     Button btn_save;
     Button btn_test;
+
+    Switch sw_more;
+    //More View
+    Switch sw_more_title;
+    Switch sw_more_text;
+    Switch sw_more_vib;
+    EditText et_more_title;
+    EditText et_more_text;
+    EditText et_more_vib;
+    Button btn_more_save;
+
+    public static void shareText(Context context, String subject, String extraText) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, extraText);//extraText为文本的内容
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//为Activity新建一个任务栈
+        context.startActivity(Intent.createChooser(intent, subject));//R.string.action_share同样是标题
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +82,7 @@ public class MainActivity extends AppCompatActivity
         initView();
         loadStats();
         loadVar();
+        viewSwitchTo("main");
         if (isFirstRun()) {
             firstRun();
         }
@@ -107,14 +129,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_status) { // 步骤1：获取FragmentManager
-
-        } else if (id == R.id.nav_oldsettings) {
-            Intent intent = new Intent(this, OldMainActivity.class);
-            startActivity(intent);
+            viewSwitchTo("main");
+        } else if (id == R.id.nav_more_settings) {
+            viewSwitchTo("more_rule");
         } else if (id == R.id.nav_debug) {
 
         } else if (id == R.id.nav_share) {
-            shareText(this,"推荐应用【全屏消息】","推荐应用【全屏消息】： https://www.coolapk.com/apk/net.asec01.fsn");
+            shareText(this, "推荐应用【全屏消息】", "推荐应用【全屏消息】： https://www.coolapk.com/apk/net.asec01.fsn");
         } else if (id == R.id.nav_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
@@ -140,7 +161,7 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     Toast.makeText(this, "权限检查通过\n如需关闭服务，请取消授权\"ZZ通知监听服务\"", Toast.LENGTH_SHORT).show();
                 }
-                startActivityForResult(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"),0);
+                startActivityForResult(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"), 0);
                 break;
             case R.id.btn_ignoringBatteryOptimizationsSettings:
                 Intent intent = new Intent();
@@ -153,7 +174,7 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(this, "已加入电池优化白名单", Toast.LENGTH_SHORT).show();
                     intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
                 }
-                startActivityForResult(intent,0);
+                startActivityForResult(intent, 0);
                 break;
             case R.id.btn_save:
                 onSaveClick();
@@ -161,31 +182,49 @@ public class MainActivity extends AppCompatActivity
             case R.id.btn_test:
                 onPreviewClick();
                 break;
+            case R.id.btn_more_save:
+                onMoreSaveClick();
+                break;
         }
     }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        switch (compoundButton.getId()){
+        switch (compoundButton.getId()) {
             case R.id.sw_main:
-                SPUtil.setBoolean(this,"sw_main",compoundButton.isChecked());
+                SPUtil.setBoolean(this, "sw_main", compoundButton.isChecked());
                 break;
             case R.id.sw_keyword_title:
-                SPUtil.setBoolean(this,"sw_title",compoundButton.isChecked());
+                SPUtil.setBoolean(this, "sw_title", compoundButton.isChecked());
                 break;
             case R.id.sw_keyword_text:
-                SPUtil.setBoolean(this,"sw_msg",compoundButton.isChecked());
+                SPUtil.setBoolean(this, "sw_msg", compoundButton.isChecked());
                 break;
             case R.id.sw_keyword_vib:
-                SPUtil.setBoolean(this,"sw_vib",compoundButton.isChecked());
+                SPUtil.setBoolean(this, "sw_vib", compoundButton.isChecked());
                 break;
             case R.id.sw_keyword_vib_s:
-                SPUtil.setBoolean(this,"sw_vib_s",compoundButton.isChecked());
+                SPUtil.setBoolean(this, "sw_vib_s", compoundButton.isChecked());
                 break;
             case R.id.sw_fullscreen:
-                SPUtil.setBoolean(this,"sw_fullscreen",compoundButton.isChecked());
+                SPUtil.setBoolean(this, "sw_fullscreen", compoundButton.isChecked());
 //                if(compoundButton.isChecked()) Toast.makeText(this,"on",Toast.LENGTH_SHORT).show();
 //                else Toast.makeText(this,"off",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.sw_ring:
+                SPUtil.setBoolean(this, "sw_ring", compoundButton.isChecked());
+                break;
+            case R.id.sw_more:
+                SPUtil.setBoolean(this, "sw_more", compoundButton.isChecked());
+                break;
+            case R.id.sw_more_title:
+                SPUtil.setBoolean(this, "sw_more_title", compoundButton.isChecked());
+                break;
+            case R.id.sw_more_text:
+                SPUtil.setBoolean(this, "sw_more_text", compoundButton.isChecked());
+                break;
+            case R.id.sw_more_vib:
+                SPUtil.setBoolean(this, "sw_more_vib", compoundButton.isChecked());
                 break;
         }
     }
@@ -199,6 +238,8 @@ public class MainActivity extends AppCompatActivity
         sw_keyword_vib = findViewById(R.id.sw_keyword_vib);
         sw_keyword_vib_s = findViewById(R.id.sw_keyword_vib_s);
         sw_fullscreen = findViewById(R.id.sw_fullscreen);
+        sw_ring = findViewById(R.id.sw_more);
+        sw_more = findViewById(R.id.sw_more);
         et_keyword_title = findViewById(R.id.et_keyword_title);
         et_keyword_text = findViewById(R.id.et_keyword_text);
         et_keyword_vib = findViewById(R.id.et_keyword_vib);
@@ -225,19 +266,25 @@ public class MainActivity extends AppCompatActivity
         sw_keyword_vib.setOnCheckedChangeListener(this);
         sw_keyword_vib_s.setOnCheckedChangeListener(this);
         sw_fullscreen.setOnCheckedChangeListener(this);
+        sw_ring.setOnCheckedChangeListener(this);
+        sw_more.setOnCheckedChangeListener(this);
+        initMoreView();
     }
 
     private void loadVar() {
-        sw_main.setChecked(SPUtil.getBoolean(this,"sw_main"));
-        sw_keyword_title.setChecked(SPUtil.getBoolean(this,"sw_title"));
-        sw_keyword_text.setChecked(SPUtil.getBoolean(this,"sw_msg"));
-        sw_keyword_vib.setChecked(SPUtil.getBoolean(this,"sw_vib"));
-        sw_keyword_vib_s.setChecked(SPUtil.getBoolean(this,"sw_vib_s"));
-        sw_fullscreen.setChecked(SPUtil.getBoolean(this,"sw_fullscreen"));
+        sw_main.setChecked(SPUtil.getBoolean(this, "sw_main"));
+        sw_keyword_title.setChecked(SPUtil.getBoolean(this, "sw_title"));
+        sw_keyword_text.setChecked(SPUtil.getBoolean(this, "sw_msg"));
+        sw_keyword_vib.setChecked(SPUtil.getBoolean(this, "sw_vib"));
+        sw_keyword_vib_s.setChecked(SPUtil.getBoolean(this, "sw_vib_s"));
+        sw_fullscreen.setChecked(SPUtil.getBoolean(this, "sw_fullscreen"));
+        sw_ring.setChecked(SPUtil.getBoolean(this, "sw_ring"));
+        sw_more.setChecked(SPUtil.getBoolean(this, "sw_more"));
         et_keyword_title.setText(SPUtil.getString(this, "titlekeyword"));
         et_keyword_text.setText(SPUtil.getString(this, "msgkeyword"));
         et_keyword_vib.setText(SPUtil.getString(this, "vibkeyword"));
         et_vib_time.setText(SPUtil.getInt(this, "vib_time").toString());
+        loadMoreVar();
     }
 
     private void loadStats() {
@@ -261,14 +308,15 @@ public class MainActivity extends AppCompatActivity
             tv_ignoringBatteryOptimizations.setText("未忽略电池优化");
         }
     }
+
     public void onSaveClick() {
         String titlekeyword = et_keyword_title.getText().toString();
         String msgkeyword = et_keyword_text.getText().toString();
         String vibkeyword = et_keyword_vib.getText().toString();
         Integer vib_time = 200;
-        try{
+        try {
             vib_time = Integer.valueOf(et_vib_time.getText().toString());
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(this, "振动时间已重置", Toast.LENGTH_SHORT).show();
         }
         if (titlekeyword.equals("") || titlekeyword.equals("") || vibkeyword.equals("")) {
@@ -283,14 +331,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onPreviewClick() {
-        createNotificationChannel("test","测试消息", NotificationManager.IMPORTANCE_MIN);
+        createNotificationChannel("test", "测试消息", NotificationManager.IMPORTANCE_MIN);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "test")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("测试通知")
-                .setAutoCancel( true )
-                .setPriority( Notification.PRIORITY_MAX )
-                .setWhen( System.currentTimeMillis() )
-                .setDefaults( Notification.DEFAULT_VIBRATE | Notification.DEFAULT_ALL | Notification.DEFAULT_SOUND )
+                .setAutoCancel(true)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setWhen(System.currentTimeMillis())
+                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_ALL | Notification.DEFAULT_SOUND)
                 .setContentText("Hi, I'm Zhangzhe\n" +
                         "Beijing, China\n" +
                         "\n" +
@@ -298,13 +346,13 @@ public class MainActivity extends AppCompatActivity
                         "买了一加的米粉\n" +
                         "社交能力基本没有\n" +
                         "嗯 就这样");
-        Intent resultIntent = new Intent(this,MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0,notification);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notification);
     }
 
     public boolean isNotificationListenerEnabled(Context context) {
@@ -314,12 +362,13 @@ public class MainActivity extends AppCompatActivity
         }
         return false;
     }
+
     public boolean isIgnoringBatteryOptimizations() {
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         return powerManager.isIgnoringBatteryOptimizations(getPackageName());
     }
 
-    public boolean isFirstRun(){
+    public boolean isFirstRun() {
         try {
             PackageManager pm = getPackageManager();
             PackageInfo pi = pm.getPackageInfo(getPackageName(), 0);
@@ -330,11 +379,11 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-    public void firstRun(){
+    public void firstRun() {
         try {
             PackageManager pm = getPackageManager();
             PackageInfo pi = pm.getPackageInfo(getPackageName(), 0);
-            SPUtil.setInt(this, "version_code",pi.versionCode);
+            SPUtil.setInt(this, "version_code", pi.versionCode);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -344,21 +393,69 @@ public class MainActivity extends AppCompatActivity
 
     @TargetApi(Build.VERSION_CODES.O)
     public void createNotificationChannel(String channelId, String channelName, int importance) {
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
-            NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(channel);
-        }else{
-            Log.e("测试通知","Android版本低于26，无需创建通知渠道");
+        } else {
+            Log.e("测试通知", "Android版本低于26，无需创建通知渠道");
         }
     }
 
-    public static void shareText(Context context, String subject, String extraText) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, extraText);//extraText为文本的内容
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//为Activity新建一个任务栈
-        context.startActivity(Intent.createChooser(intent, subject));//R.string.action_share同样是标题
+    private void viewSwitchTo(String v) {
+        ScrollView sv_main = findViewById(R.id.sv_main);
+        ScrollView sv_more_rule = findViewById(R.id.sv_more_rule);
+        switch (v) {
+            case "main":
+                sv_main.setVisibility(View.VISIBLE);
+                sv_more_rule.setVisibility(View.GONE);
+                break;
+            case "more_rule":
+                sv_main.setVisibility(View.GONE);
+                sv_more_rule.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    private void initMoreView() {
+        sw_more_title = findViewById(R.id.sw_more_title);
+        sw_more_text = findViewById(R.id.sw_more_text);
+        sw_more_vib = findViewById(R.id.sw_more_vib);
+        et_more_title = findViewById(R.id.et_more_title);
+        et_more_text = findViewById(R.id.et_more_text);
+        et_more_vib = findViewById(R.id.et_more_vib);
+        btn_more_save = findViewById(R.id.btn_more_save);
+        sw_more_title.setOnCheckedChangeListener(this);
+        sw_more_text.setOnCheckedChangeListener(this);
+        sw_more_vib.setOnCheckedChangeListener(this);
+        btn_more_save.setOnClickListener(this);
+    }
+
+    private void loadMoreVar() {
+        sw_more_title.setChecked(SPUtil.getBoolean(this, "sw_more_title"));
+        sw_more_text.setChecked(SPUtil.getBoolean(this, "sw_more_text"));
+        sw_more_vib.setChecked(SPUtil.getBoolean(this, "sw_more_vib"));
+        et_more_title.setText(SPUtil.getString(this, "et_more_title"));
+        et_more_text.setText(SPUtil.getString(this, "et_more_text"));
+        et_more_vib.setText(SPUtil.getString(this, "et_more_vib"));
+    }
+
+    private void onMoreSaveClick() {
+        String more_title = et_more_title.getText().toString();
+        String more_text = et_more_text.getText().toString();
+        String more_vib = et_more_vib.getText().toString();
+
+        String str = more_title + "," + more_text + "," + more_vib;
+        for (String retval : str.split(",")) {
+            System.out.println(retval);
+            if (retval.equals("")) {
+                Toast.makeText(this, "保存失败: 禁止空关键词", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        SPUtil.setString(this, "et_more_title", more_title);
+        SPUtil.setString(this, "et_more_text", more_text);
+        SPUtil.setString(this, "et_more_vib", more_vib);
+        Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
     }
 }

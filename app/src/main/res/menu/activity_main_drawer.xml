@@ -10,9 +10,10 @@
             android:icon="@drawable/navigation"
             android:title="状态" />
         <item
-            android:id="@+id/nav_oldsettings"
+            android:id="@+id/nav_more_settings"
+            android:checkable="true"
             android:icon="@drawable/ic_menu_manage"
-            android:title="旧的设置页面" />
+            android:title="更多关键词(试验)" />
         <item
             android:id="@+id/nav_debug"
             android:icon="@drawable/settings"
