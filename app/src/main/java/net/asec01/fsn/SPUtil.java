@@ -18,6 +18,15 @@ public class SPUtil {
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
+    public static Boolean isExist(Context context,String key){
+        return getPrefs(context).contains(key);
+    }
+    public static void remove(Context context,String key){
+        SharedPreferences.Editor editor = getPrefs(context).edit();
+        editor.remove(key);
+        editor.commit();
+    }
+
     public static String getString(Context context,String key) {
         //Log.i("getString", key+ " , " +getPrefs(context).getString(key, DEFAULT_STRING));
         return getPrefs(context).getString(key, DEFAULT_STRING);

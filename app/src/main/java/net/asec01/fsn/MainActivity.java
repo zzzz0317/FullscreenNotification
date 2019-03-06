@@ -1,11 +1,13 @@
 package net.asec01.fsn;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -35,6 +37,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.bugly.crashreport.BuglyLog;
+
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity
@@ -42,13 +46,14 @@ public class MainActivity extends AppCompatActivity
 
     Button btn_notificationListenerSettings;
     Button btn_ignoringBatteryOptimizationsSettings;
+    Button btn_debug;
     Switch sw_main;
     Switch sw_keyword_title;
     Switch sw_keyword_text;
     Switch sw_keyword_vib;
     Switch sw_keyword_vib_s;
     Switch sw_fullscreen;
-    Switch sw_ring;
+    Switch sw_bugly;
     EditText et_keyword_title;
     EditText et_keyword_text;
     EditText et_keyword_vib;
@@ -79,6 +84,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (isFirstRun()) {
+            updateSP();
+        }
         initView();
         loadStats();
         loadVar();
@@ -176,6 +184,13 @@ public class MainActivity extends AppCompatActivity
                 }
                 startActivityForResult(intent, 0);
                 break;
+            case R.id.btn_debug:
+//                int i = 1/0;
+//                System.out.print(i);
+                Toast.makeText(this, SPUtil.isExist(this,"123").toString() +
+                        SPUtil.isExist(this,"sw_main").toString() +
+                        SPUtil.isExist(this,"et_keyword_title").toString(), Toast.LENGTH_SHORT).show();
+                break;
             case R.id.btn_save:
                 onSaveClick();
                 break;
@@ -211,8 +226,14 @@ public class MainActivity extends AppCompatActivity
 //                if(compoundButton.isChecked()) Toast.makeText(this,"on",Toast.LENGTH_SHORT).show();
 //                else Toast.makeText(this,"off",Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.sw_ring:
-                SPUtil.setBoolean(this, "sw_ring", compoundButton.isChecked());
+            case R.id.sw_bugly:
+                if(compoundButton.isChecked() == SPUtil.getBoolean(this, "sw_bugly"))
+                    return;
+                if(compoundButton.isChecked()){
+                    buglyDisableConfirm();
+                }else{
+                    buglyEnableConfirm();
+                }
                 break;
             case R.id.sw_more:
                 SPUtil.setBoolean(this, "sw_more", compoundButton.isChecked());
@@ -232,13 +253,14 @@ public class MainActivity extends AppCompatActivity
     private void initView() {
         btn_notificationListenerSettings = findViewById(R.id.btn_notificationListenerSettings);
         btn_ignoringBatteryOptimizationsSettings = findViewById(R.id.btn_ignoringBatteryOptimizationsSettings);
+        btn_debug = findViewById(R.id.btn_debug);
         sw_main = findViewById(R.id.sw_main);
         sw_keyword_title = findViewById(R.id.sw_keyword_title);
         sw_keyword_text = findViewById(R.id.sw_keyword_text);
         sw_keyword_vib = findViewById(R.id.sw_keyword_vib);
         sw_keyword_vib_s = findViewById(R.id.sw_keyword_vib_s);
         sw_fullscreen = findViewById(R.id.sw_fullscreen);
-        sw_ring = findViewById(R.id.sw_more);
+        sw_bugly = findViewById(R.id.sw_bugly);
         sw_more = findViewById(R.id.sw_more);
         et_keyword_title = findViewById(R.id.et_keyword_title);
         et_keyword_text = findViewById(R.id.et_keyword_text);
@@ -258,6 +280,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         btn_notificationListenerSettings.setOnClickListener(this);
         btn_ignoringBatteryOptimizationsSettings.setOnClickListener(this);
+        btn_debug.setOnClickListener(this);
         btn_save.setOnClickListener(this);
         btn_test.setOnClickListener(this);
         sw_main.setOnCheckedChangeListener(this);
@@ -266,7 +289,7 @@ public class MainActivity extends AppCompatActivity
         sw_keyword_vib.setOnCheckedChangeListener(this);
         sw_keyword_vib_s.setOnCheckedChangeListener(this);
         sw_fullscreen.setOnCheckedChangeListener(this);
-        sw_ring.setOnCheckedChangeListener(this);
+        sw_bugly.setOnCheckedChangeListener(this);
         sw_more.setOnCheckedChangeListener(this);
         initMoreView();
     }
@@ -278,11 +301,11 @@ public class MainActivity extends AppCompatActivity
         sw_keyword_vib.setChecked(SPUtil.getBoolean(this, "sw_vib"));
         sw_keyword_vib_s.setChecked(SPUtil.getBoolean(this, "sw_vib_s"));
         sw_fullscreen.setChecked(SPUtil.getBoolean(this, "sw_fullscreen"));
-        sw_ring.setChecked(SPUtil.getBoolean(this, "sw_ring"));
+        sw_bugly.setChecked(SPUtil.getBoolean(this, "sw_bugly"));
         sw_more.setChecked(SPUtil.getBoolean(this, "sw_more"));
-        et_keyword_title.setText(SPUtil.getString(this, "titlekeyword"));
-        et_keyword_text.setText(SPUtil.getString(this, "msgkeyword"));
-        et_keyword_vib.setText(SPUtil.getString(this, "vibkeyword"));
+        et_keyword_title.setText(SPUtil.getString(this, "et_keyword_title"));
+        et_keyword_text.setText(SPUtil.getString(this, "et_keyword_text"));
+        et_keyword_vib.setText(SPUtil.getString(this, "et_keyword_vib"));
         et_vib_time.setText(SPUtil.getInt(this, "vib_time").toString());
         loadMoreVar();
     }
@@ -309,6 +332,72 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void buglyEnableConfirm(){
+
+        BuglyLog.w("Bugly", "用户尝试启用Bugly");
+        DialogInterface.OnClickListener setListener = null;
+
+        AlertDialog.Builder enableBuglyDialog = new AlertDialog.Builder(this);
+        enableBuglyDialog.setTitle("启用 Bugly 帮助开发者除错");
+        enableBuglyDialog.setIcon(R.mipmap.ic_launcher_round);
+        enableBuglyDialog.setMessage("真的要启用腾讯 Bugly 吗？\n设置将在重启应用后生效");
+
+        setListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_NEUTRAL:
+                        //取消
+                        BuglyLog.w("Bugly", "用户取消启用Bugly");
+                        sw_bugly.setChecked(true);
+                        dialog.dismiss();
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //确定
+                        BuglyLog.w("Bugly", "用户选择启用Bugly");
+                        SPUtil.setBoolean(MainActivity.this, "sw_bugly", false);
+                        dialog.dismiss();
+                        break;
+                }
+            }
+        };
+        enableBuglyDialog.setNegativeButton("确定",setListener);
+        enableBuglyDialog.setNeutralButton("取消",setListener);
+        enableBuglyDialog.create().show();
+    }
+    private void buglyDisableConfirm(){
+        BuglyLog.w("Bugly", "用户尝试关闭Bugly");
+        DialogInterface.OnClickListener setListener = null;
+
+        AlertDialog.Builder enableBuglyDialog = new AlertDialog.Builder(this);
+        enableBuglyDialog.setTitle("禁用 Bugly");
+        enableBuglyDialog.setIcon(R.mipmap.ic_launcher_round);
+        enableBuglyDialog.setMessage("真的要禁用腾讯 Bugly 吗？关闭此设置就不能帮助开发者找问题啦\n设置将在重启应用后生效");
+
+        setListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_NEUTRAL:
+                        //取消
+                        sw_bugly.setChecked(false);
+                        BuglyLog.w("Bugly", "用户取消关闭Bugly");
+                        dialog.dismiss();
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //确定
+                        BuglyLog.w("Bugly", "用户选择关闭Bugly");
+                        SPUtil.setBoolean(MainActivity.this, "sw_bugly", true);
+                        dialog.dismiss();
+                        break;
+                }
+            }
+        };
+        enableBuglyDialog.setNegativeButton("确定",setListener);
+        enableBuglyDialog.setNeutralButton("取消",setListener);
+        enableBuglyDialog.create().show();
+    }
+
     public void onSaveClick() {
         String titlekeyword = et_keyword_title.getText().toString();
         String msgkeyword = et_keyword_text.getText().toString();
@@ -322,9 +411,9 @@ public class MainActivity extends AppCompatActivity
         if (titlekeyword.equals("") || titlekeyword.equals("") || vibkeyword.equals("")) {
             Toast.makeText(this, "保存失败: 禁止空关键词", Toast.LENGTH_SHORT).show();
         } else {
-            SPUtil.setString(this, "titlekeyword", titlekeyword);
-            SPUtil.setString(this, "msgkeyword", msgkeyword);
-            SPUtil.setString(this, "vibkeyword", vibkeyword);
+            SPUtil.setString(this, "et_keyword_title", titlekeyword);
+            SPUtil.setString(this, "et_keyword_text", msgkeyword);
+            SPUtil.setString(this, "et_keyword_vib", vibkeyword);
             SPUtil.setInt(this, "vib_time", vib_time);
             Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
         }
@@ -438,6 +527,22 @@ public class MainActivity extends AppCompatActivity
         et_more_title.setText(SPUtil.getString(this, "et_more_title"));
         et_more_text.setText(SPUtil.getString(this, "et_more_text"));
         et_more_vib.setText(SPUtil.getString(this, "et_more_vib"));
+        testMore();
+    }
+
+    private void testMore() {
+        String set_more_title = "标题关键词\n",set_more_text="消息关键词\n",set_more_vib="振动关键词\n";
+        for (String retval : SPUtil.getString(this, "et_more_title").split(",")) {
+            set_more_title = set_more_title + retval + "\n";
+        }
+        for (String retval : SPUtil.getString(this, "et_more_text").split(",")) {
+            set_more_text = set_more_text + retval + "\n";
+        }
+        for (String retval : SPUtil.getString(this, "et_more_vib").split(",")) {
+            set_more_vib = set_more_vib + retval + "\n";
+        }
+        TextView tv_more_read = findViewById(R.id.tv_more_read);
+        tv_more_read.setText("设置解析：\n" + set_more_title + set_more_text + set_more_vib);
     }
 
     private void onMoreSaveClick() {
@@ -457,5 +562,30 @@ public class MainActivity extends AppCompatActivity
         SPUtil.setString(this, "et_more_text", more_text);
         SPUtil.setString(this, "et_more_vib", more_vib);
         Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
+        testMore();
     }
+    private void updateSP(){
+        updateSPStr("titlekeyword","et_keyword_title");
+        updateSPStr("msgkeyword","et_keyword_text");
+        updateSPStr("vibkeyword","et_keyword_vib");
+    }
+    private void updateSPStr(String oldKey, String newKey){
+        if (SPUtil.isExist(this,oldKey)){
+//            if(!SPUtil.isExist(this,newKey)){
+//
+//            }
+            SPUtil.setString(this,newKey,SPUtil.getString(this,oldKey));
+            SPUtil.remove(this,oldKey);
+        }
+    }
+//    private void updateSPBool(String oldKey, String newKey){
+//        if (SPUtil.isExist(this,oldKey)){
+////            if(!SPUtil.isExist(this,newKey)){
+////                SPUtil.setBoolean(this,newKey,SPUtil.getBoolean(this,oldKey));
+////            }
+//            SPUtil.setBoolean(this,newKey,SPUtil.getBoolean(this,oldKey));
+//            SPUtil.remove(this,oldKey);
+//        }
+//    }
+
 }

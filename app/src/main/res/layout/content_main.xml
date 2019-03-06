@@ -13,7 +13,7 @@ android:layout_height="match_parent"
         android:id="@+id/sv_main"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -28,7 +28,7 @@ android:layout_height="match_parent"
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sv_main">
 
@@ -205,6 +205,7 @@ android:layout_height="match_parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/sw_main" />
+
                         </android.support.constraint.ConstraintLayout>
 
                         <android.support.constraint.ConstraintLayout
@@ -228,11 +229,11 @@ android:layout_height="match_parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <Switch
-                                android:id="@+id/sw_ring"
+                                android:id="@+id/sw_bugly"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:text="响铃"
+                                android:text="关闭 Bugly"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/sw_fullscreen" />
@@ -245,6 +246,17 @@ android:layout_height="match_parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+                        <Button
+                            android:id="@+id/btn_debug"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:text="DEBUG"
+                            android:visibility="invisible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </android.support.constraint.ConstraintLayout>
                 </android.support.v7.widget.CardView>
@@ -269,12 +281,11 @@ android:layout_height="match_parent"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
                             android:layout_marginEnd="16dp"
-                            android:text="振动关键词匹配"
+                            android:text="增强型提醒关键词(消息)"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/sw_keyword_vib" />
+                            app:layout_constraintTop_toBottomOf="@+id/et_vib_time" />
 
                         <Switch
                             android:id="@+id/sw_keyword_vib"
@@ -314,11 +325,11 @@ android:layout_height="match_parent"
                             android:id="@+id/btn_test"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
                             android:text="触发测试通知"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/et_vib_time" />
+                            app:layout_constraintTop_toBottomOf="@+id/et_keyword_vib" />
 
                         <TextView
                             android:id="@+id/textView12"
@@ -377,10 +388,10 @@ android:layout_height="match_parent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="16dp"
                             android:text="应用设置"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/et_vib_time" />
+                            app:layout_constraintTop_toBottomOf="@+id/et_keyword_vib" />
 
                         <TextView
                             android:id="@+id/textView18"
@@ -391,7 +402,7 @@ android:layout_height="match_parent"
                             android:text="振动时间(ms)"
                             android:textColor="@android:color/black"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/et_keyword_vib" />
+                            app:layout_constraintTop_toBottomOf="@+id/sw_keyword_vib" />
 
                         <EditText
                             android:id="@+id/et_vib_time"
@@ -407,23 +418,25 @@ android:layout_height="match_parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
                         <Space
+                            android:id="@+id/space"
                             android:layout_width="0dp"
                             android:layout_height="16dp"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/btn_save" />
 
-                        <Button
-                            android:id="@+id/btn_more_rule"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="更多规则"
-                            app:layout_constraintEnd_toStartOf="@+id/btn_test"
-                            app:layout_constraintStart_toEndOf="@+id/btn_save"
-                            app:layout_constraintTop_toBottomOf="@+id/et_vib_time" />
                     </android.support.constraint.ConstraintLayout>
                 </android.support.v7.widget.CardView>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView4" />
 
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
@@ -437,6 +450,7 @@ android:layout_height="match_parent"
         android:id="@+id/sv_more_rule"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -508,7 +522,7 @@ android:layout_height="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="振动关键词"
+                android:text="增强型提醒关键词"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_more_text" />

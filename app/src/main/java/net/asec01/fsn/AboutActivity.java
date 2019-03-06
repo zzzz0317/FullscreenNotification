@@ -18,10 +18,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-public class AboutActivity extends AppCompatActivity implements View.OnClickListener {
+public class AboutActivity extends SwipeBackActivity implements View.OnClickListener {
 
     Button btn_donate_wechat;
     Button btn_open_wechat;
@@ -32,11 +34,11 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        btn_donate_alipay = findViewById(R.id.btn_donate_alipay);
-        btn_donate_wechat = findViewById(R.id.btn_donate_wechat);
-        btn_open_wechat = findViewById(R.id.btn_open_wechat);
-        btn_wechat_back = findViewById(R.id.btn_wechat_back);
-        cv_wechat_qr = findViewById(R.id.cv_wechat_qr);
+        btn_donate_alipay = (Button) findViewById(R.id.btn_donate_alipay);
+        btn_donate_wechat = (Button) findViewById(R.id.btn_donate_wechat);
+        btn_open_wechat = (Button) findViewById(R.id.btn_open_wechat);
+        btn_wechat_back = (Button) findViewById(R.id.btn_wechat_back);
+        cv_wechat_qr = (CardView) findViewById(R.id.cv_wechat_qr);
         btn_donate_alipay.setOnClickListener(this);
         btn_donate_wechat.setOnClickListener(this);
         btn_open_wechat.setOnClickListener(this);
@@ -47,7 +49,7 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
             byte[]  buffer = new byte[lenght];
             is.read(buffer);
             String result = new String(buffer, "utf8");
-            TextView tv_update_log = findViewById(R.id.tv_update_log);
+            TextView tv_update_log = (TextView) findViewById(R.id.tv_update_log);
             tv_update_log.setText(result);
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,7 +57,7 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
         try {
             PackageManager pm = getPackageManager();
             PackageInfo pi = pm.getPackageInfo(getPackageName(), 0);
-            TextView tv_version = findViewById(R.id.tv_version);
+            TextView tv_version = (TextView) findViewById(R.id.tv_version);
             tv_version.setText(pi.versionName + " (" + pi.versionCode +")");
         } catch (Exception e) {
             e.printStackTrace();
